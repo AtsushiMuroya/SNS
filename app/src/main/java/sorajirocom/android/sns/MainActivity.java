@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -17,12 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PostAdapter.OnLikeClickListener{
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference refMsg = database.getReference("message");
 
-    ListView mListView;
+    ListView listView;
     FloatingActionButton addButton;
     ArrayList<Post> items;
     PostAdapter postAdapter;
@@ -31,13 +34,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListView = (ListView)findViewById(R.id.list_view);
+        listView = (ListView)findViewById(R.id.list_view);
         addButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
         items = new ArrayList<>();
-        postAdapter = new PostAdapter(this,0,items);
+        postAdapter = new PostAdapter(this,0,new ArrayList<Post>());
+        postAdapter.setOnLikeClickListener(this);
+        listView.setAdapter(postAdapter);
 
-        mListView.setAdapter(postAdapter);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +80,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
+    @Override
+    public void onLikeClick(int position){
+        Toast.makeText(this,"いいねが押されたよ",Toast.LENGTH_SHORT).show();
+    }
+    public List<Post> getSampleData() {
+        return Arrays.asList(
+                new Post("title", "content", 3),
+                new Post("title", "content", 3),
+                new Post("title", "content", 3));
+    }
+
 
 }

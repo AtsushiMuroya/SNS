@@ -71,6 +71,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         return convertView;
     }
+    public void setOnLikeClickListener(OnLikeClickListener likeClickListener) {
+        this.likeClickListener = likeClickListener;
+    }
     static class ViewHolder {
         TextView titleText;
         TextView contentText;
