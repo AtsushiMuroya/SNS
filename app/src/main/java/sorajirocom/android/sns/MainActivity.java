@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
                 Post value = dataSnapshot.getValue(Post.class);
 
                 items.add(value);
-                postAdapter.clear();
-                postAdapter.addAll(items);
                 postAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Post value = dataSnapshot.getValue(Post.class);
+                if (value == null) return;
 
             }
 
@@ -86,12 +86,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
     public void onLikeClick(int position){
         Toast.makeText(this,"いいねが押されたよ",Toast.LENGTH_SHORT).show();
     }
-    public List<Post> getSampleData() {
-        return Arrays.asList(
-                new Post("title", "content", 3),
-                new Post("title", "content", 3),
-                new Post("title", "content", 3));
-    }
+
 
 
 }
