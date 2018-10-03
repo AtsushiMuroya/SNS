@@ -19,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements PostAdapter.OnLikeClickListener{
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -84,7 +86,22 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
     }
     @Override
     public void onLikeClick(int position){
-        Toast.makeText(this,"いいねが押されたよ",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"いいねが押されたよ",Toast.LENGTH_SHORT).show();
+        Post item = postAdapter.getItem(position);
+        if (item == null) return;
+
+        int likeCount = item.getLikeCount();
+        likeCount = likeCount + 1;
+
+        // いいね数を更新
+        item.setLikeCount(likeCount);
+
+        // 更新
+        Map<String, Object> postValues = new HashMap<>();
+        postValues.put("/" + item.getKey() + "/", item);
+
+        // 送信
+        refMsg.updateChildren(postValues);
     }
 
 

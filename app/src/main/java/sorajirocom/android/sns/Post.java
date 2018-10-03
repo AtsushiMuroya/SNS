@@ -4,6 +4,7 @@ public class Post {
     String content;
     String title;
     int likeCount;
+
     String key;
 
     public Post(){

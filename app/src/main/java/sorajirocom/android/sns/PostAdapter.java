@@ -83,4 +83,15 @@ public class PostAdapter extends ArrayAdapter<Post> {
     interface OnLikeClickListener {
         void onLikeClick(int position);
     }
+
+    //参考にした
+    public Post getItemByKey(String key) {
+        for (Post item : items) {
+            if (item.getKey().equals(key)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
 }
