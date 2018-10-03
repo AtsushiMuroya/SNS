@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
 
     ListView listView;
     FloatingActionButton addButton;
-    ArrayList<Post> items;
+//    ArrayList<Post> items;
     PostAdapter postAdapter;
 
     @Override
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
         listView = (ListView)findViewById(R.id.list_view);
         addButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
-        items = new ArrayList<>();
+        //items = new ArrayList<>();
         postAdapter = new PostAdapter(this,0,new ArrayList<Post>());
         postAdapter.setOnLikeClickListener(this);
         listView.setAdapter(postAdapter);
@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Post value = dataSnapshot.getValue(Post.class);
 
-                items.add(value);
+//                items.add(value);
+                postAdapter.add(value);
                 postAdapter.notifyDataSetChanged();
             }
 
@@ -64,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Post value = dataSnapshot.getValue(Post.class);
                 if (value == null) return;
+
+                Post item = postAdapter.getItemByKey(value.getKey());
+                item.setTitle(value.getTitle());
+                item.setContent(value.getContent());
+                item.setLikeCount(value.getLikeCount());
+
+                postAdapter.notifyDataSetChanged();
 
             }
 
@@ -95,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements PostAdapter.OnLik
 
         // いいね数を更新
         item.setLikeCount(likeCount);
+
 
         // 更新
         Map<String, Object> postValues = new HashMap<>();
